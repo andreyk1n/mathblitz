@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MathBlitz — Тренажер арифметики</title>
+    <meta name="description"
+        content="MathBlitz — безкоштовний онлайн тренажер арифметики. Тренуй додавання, віднімання, множення та ділення на час. Режими для дітей та дорослих.">
+    <meta name="keywords" content="арифметика, математика, тренажер, множення, ділення, додавання, віднімання, онлайн">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="MathBlitz — Тренажер арифметики">
+    <meta property="og:description" content="Тренуй арифметику на час. Множення, ділення, додавання, віднімання.">
+    <meta property="og:type" content="website">
+    <link rel="canonical" href="https://mathblitz.app/">
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+
+    <header class="header" role="banner">
+        <a href="#" class="header__logo" aria-label="MathBlitz — головна">
+            <span class="header__logo-icon" aria-hidden="true">M</span>
+            MathBlitz
+        </a>
+        <div class="header__actions">
+            <button class="btn-icon" id="btn-sound" title="Звук" aria-label="Звук увімкнено">🔔</button>
+            <button class="btn-icon" id="btn-theme" title="Тема" aria-label="Перемкнути тему">🌙</button>
+        </div>
+    </header>
+
+    <main class="main" id="main" role="main">
+        <section class="screen visible" id="screen-home" aria-label="Налаштування гри">
+            <div style="text-align:center;padding:.5rem 0 .25rem">
+                <h1 style="font-size:1.5rem;font-weight:700;letter-spacing:-.02em">Тренажер арифметики</h1>
+                <p style="font-size:.9rem;color:var(--text2);margin-top:.35rem">Налаштуй і починай</p>
+            </div>
+            <div class="card">
+                <p class="card__title">Операції</p>
+                <div class="setting-group">
+                    <div class="pill-group" id="mode-group" role="group" aria-label="Вибір операцій">
+                        <button class="pill selected" data-val="add">➕ Додавання</button>
+                        <button class="pill" data-val="sub">➖ Віднімання</button>
+                        <button class="pill" data-val="mul">✖️ Множення</button>
+                        <button class="pill" data-val="div">➗ Ділення</button>
+                        <button class="pill" data-val="mix">🎲 Мікс</button>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <p class="card__title">Розрядність чисел</p>
+                <div class="setting-group">
+                    <span class="setting-label">Кількість цифр (у множнику / доданку)</span>
+                    <div class="pill-group" id="digits-group" role="group" aria-label="Кількість цифр">
+                        <button class="pill selected" data-val="1">1 цифра</button>
+                        <button class="pill" data-val="2">2 цифри</button>
+                        <button class="pill" data-val="3">3 цифри</button>
+                        <button class="pill" data-val="hard">🔥 Хард-мікс</button>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <p class="card__title">Режим гри</p>
+                <div class="setting-group">
+                    <span class="setting-label">Тривалість</span>
+                    <div class="pill-group" id="time-group" role="group" aria-label="Тривалість гри">
+                        <button class="pill selected" data-val="60">1 хв</button>
+                        <button class="pill" data-val="180">3 хв</button>
+                        <button class="pill" data-val="300">5 хв</button>
+                        <button class="pill" data-val="error">До помилки</button>
+                    </div>
+                </div>
+                <div class="setting-group" style="margin-top:1rem">
+                    <span class="setting-label">Тип відповіді</span>
+                    <div class="pill-group" id="anstype-group" role="group" aria-label="Тип відповіді">
+                        <button class="pill selected" data-val="input">⌨️ Ввести</button>
+                        <button class="pill" data-val="choice">🎯 Три варіанти</button>
+                    </div>
+                </div>
+                <div class="toggle-row" style="margin-top:1rem;border:none;padding-top:0">
+                    <div>
+                        <div class="toggle-row__label">Звук останніх 10 сек</div>
+                        <div class="toggle-row__sub">Біп-сигнал перед кінцем часу</div>
+                    </div>
+                    <label class="toggle" aria-label="Звук останніх 10 секунд">
+                        <input type="checkbox" id="beep-toggle" checked>
+                        <span class="toggle__track"></span>
+                        <span class="toggle__thumb"></span>
+                    </label>
+                </div>
+            </div>
+            <button class="btn btn--primary btn--full btn--lg" id="btn-start">Почати →</button>
+        </section>
+        <section class="screen" id="screen-game" aria-label="Гра">
+            <div class="game-header">
+                <div class="stat-box">
+                    <div class="stat-box__val" id="stat-score">0</div>
+                    <div class="stat-box__key">ОЧКИ</div>
+                </div>
+                <div class="timer-arc" id="timer-arc" aria-label="Таймер">
+                    <svg width="64" height="64" viewBox="0 0 64 64" aria-hidden="true">
+                        <circle class="timer-arc__track" cx="32" cy="32" r="28" />
+                        <circle class="timer-arc__fill" id="arc-fill" cx="32" cy="32" r="28" stroke-dasharray="175.9"
+                            stroke-dashoffset="0" />
+                    </svg>
+                    <div class="timer-arc__label" id="timer-label">60</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-box__val" id="stat-combo">×1</div>
+                    <div class="stat-box__key">СЕРІЯ</div>
+                </div>
+            </div>
+            <div class="progress">
+                <div class="progress__bar" id="progress-bar" style="width:100%"></div>
+            </div>
+            <div class="question-card">
+                <div class="question-card__expr" id="question-expr" aria-live="polite">?</div>
+                <div class="question-card__hint" id="question-hint"></div>
+            </div>
+            <div id="answer-area"></div>
+            <button class="btn btn--outline btn--full" id="btn-quit" style="font-size:.85rem">Завершити</button>
+        </section>
+        <section class="screen" id="screen-result" aria-label="Результати">
+            <div class="result-rank" id="result-emoji" aria-label="Ранг"></div>
+            <div style="text-align:center">
+                <h2 style="font-size:1.4rem;font-weight:700" id="result-title">Чудово!</h2>
+                <p style="font-size:.9rem;color:var(--text2);margin-top:.3rem" id="result-sub"></p>
+            </div>
+            <div class="result-grid">
+                <div class="result-stat">
+                    <div class="result-stat__val" id="res-score">0</div>
+                    <div class="result-stat__key">Очки</div>
+                </div>
+                <div class="result-stat">
+                    <div class="result-stat__val" id="res-correct">0</div>
+                    <div class="result-stat__key">Правильно</div>
+                </div>
+                <div class="result-stat">
+                    <div class="result-stat__val" id="res-wrong">0</div>
+                    <div class="result-stat__key">Помилок</div>
+                </div>
+                <div class="result-stat">
+                    <div class="result-stat__val" id="res-accuracy">0%</div>
+                    <div class="result-stat__key">Точність</div>
+                </div>
+            </div>
+            <button class="btn btn--primary btn--full btn--lg" id="btn-home">← На головну</button>
+            <button class="btn btn--outline btn--full" id="btn-retry">Ще раз з тими самими налаштуваннями</button>
+        </section>
+    </main>
+    <div class="feedback" id="feedback" role="status" aria-live="assertive"></div>
+    <script src="./script.js"></script>
+</body>
+
+</html>
